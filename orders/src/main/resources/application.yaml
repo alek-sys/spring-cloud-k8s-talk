@@ -1,0 +1,18 @@
+eureka:
+  client:
+    prefer-same-zone-eureka: true
+    service-url:
+      prod: ${discovery.server-url:http://localhost:8761/eureka}
+    region: region-1
+    availability-zones:
+      region-1: prod,dr
+  instance:
+    metadata-map:
+      zone: ${discovery.zone:prod}
+    lease-renewal-interval-in-seconds: 3
+    hostname: ${discovery.hostname:localhost}
+spring:
+  application:
+    name: orders
+server:
+  port: 8090

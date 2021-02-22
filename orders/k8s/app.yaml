@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deployment
+spec:
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: aleksys/orders
+        ports:
+        - containerPort: 8080
+        env:
+          - name: discovery.server-url
+            value: http://discovery-server.default:8761/eureka
+          - name: discovery.zone
+            valueFrom:
+              configMapKeyRef:
+                key: discovery.zone
+                name: discovery-config
+          - name: discovery.hostname
+            valueFrom:
+              configMapKeyRef:
+                key: orders.hostname
+                name: discovery-config

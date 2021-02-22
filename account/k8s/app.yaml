@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-deployment
+spec:
+  selector:
+    matchLabels:
+      app: account
+  template:
+    metadata:
+      labels:
+        app: account
+    spec:
+      containers:
+        - name: account
+          image: aleksys/account
+          ports:
+            - containerPort: 8080
+          env:
+            - name: discovery.server-url
+              value: http://discovery-server.default:8761/eureka
+            - name: discovery.hostname
+              value: account-service.default
+            - name: discovery.zone
+              valueFrom:
+                configMapKeyRef:
+                  key: discovery.zone
+                  name: discovery-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service
+spec:
+  selector:
+    app: account
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: ClusterIP

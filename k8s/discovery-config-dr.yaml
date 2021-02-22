@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discovery-config
+data:
+  discovery.zone: "dr"
+  discovery.zone-hostname: "discovery-server.default"
+  discovery.peer-url: "http://discovery-server.default:8761/eureka"
+  orders.hostname: "orders-service.default"

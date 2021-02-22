@@ -1,0 +1,28 @@
+eureka:
+  client:
+    prefer-same-zone-eureka: true
+    service-url:
+      prod: ${discovery.server-url:http://localhost:8761/eureka}
+    region: region-1
+    availability-zones:
+      region-1: prod,dr
+    registry-fetch-interval-seconds: 3
+  instance:
+    metadata-map:
+      zone: ${discovery.zone:prod}
+    lease-renewal-interval-in-seconds: 3
+    hostname: ${discovery.hostname:localhost}
+spring:
+  cloud:
+    loadbalancer:
+      cache:
+        ttl: 3S
+  application:
+    name: account
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

@@ -1,0 +1,22 @@
+ext {
+    set('wavefrontVersion', "2.1.0")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+    implementation 'io.github.resilience4j:resilience4j-micrometer'
+
+    implementation 'com.wavefront:wavefront-spring-boot-starter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.wavefront:wavefront-spring-boot-bom:${wavefrontVersion}"
+    }
+}

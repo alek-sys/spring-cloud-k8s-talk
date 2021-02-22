@@ -1,0 +1,38 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+build:
+  artifacts:
+    - image: aleksys/account
+      jib:
+        project: account
+    - image: aleksys/discovery-server
+      jib:
+        project: discovery-server
+    - image: aleksys/orders
+      jib:
+        project: orders
+    - image: aleksys/gateway
+      jib:
+        project: gateway
+
+profiles:
+  - name: prod
+    deploy:
+      kubectl:
+        manifests:
+          - k8s/discovery-config.yaml
+          - gateway/k8s/*.yaml
+          - discovery-server/k8s/*.yaml
+          - account/k8s/*.yaml
+          - orders/k8s/app.yaml
+          - orders/k8s/service-internal.yaml
+  - name: dr
+    deploy:
+      kubectl:
+        manifests:
+          - k8s/discovery-config-dr.yaml
+          - gateway/k8s/*.yaml
+          - discovery-server/k8s/*.yaml
+          - account/k8s/*.yaml
+          - orders/k8s/app.yaml
+          - orders/k8s/service-public.yaml

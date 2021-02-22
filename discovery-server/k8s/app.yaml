@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server
+spec:
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+      - name: discovery-server
+        image: aleksys/discovery-server
+        ports:
+        - containerPort: 8761
+        env:
+          - name: discovery.peer-url
+            valueFrom:
+              configMapKeyRef:
+                key: discovery.peer-url
+                name: discovery-config
+          - name: discovery.zone-hostname
+            valueFrom:
+              configMapKeyRef:
+                key: discovery.zone-hostname
+                name: discovery-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+spec:
+  selector:
+    app: discovery-server
+  ports:
+    - port: 8761
+  type: LoadBalancer

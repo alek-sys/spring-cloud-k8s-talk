@@ -1,0 +1,11 @@
+eureka:
+  instance:
+    hostname: ${discovery.zone-hostname:localhost}
+  client:
+    service-url:
+      defaultZone: ${discovery.peer-url}
+server:
+  port: 8761
+spring:
+  application:
+    name: discovery-server

@@ -1,0 +1,39 @@
+eureka:
+  client:
+    prefer-same-zone-eureka: true
+    service-url:
+      prod: ${discovery.server-url:http://localhost:8761/eureka}
+    region: region-1
+    availability-zones:
+      region-1: prod,dr
+    registry-fetch-interval-seconds: 3
+    register-with-eureka: false
+  instance:
+    metadata-map:
+      zone: ${discovery.zone:prod}
+    lease-renewal-interval-in-seconds: 3
+    hostname: ${discovery.hostname:localhost}
+server:
+  port: 8100
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          filters:
+            - SecureHeaders
+      routes:
+        - uri: https://httpbin.org
+          predicates:
+            - Path=/test/**
+          filters:
+            - StripPrefix=1
+  application:
+    name: gateway
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,gateway

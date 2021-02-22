@@ -1,0 +1,7 @@
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
+    implementation 'com.sun.jersey:jersey-client'
+    implementation 'com.sun.jersey:jersey-core'
+    implementation 'com.sun.jersey.contribs:jersey-apache-client4'
+}
