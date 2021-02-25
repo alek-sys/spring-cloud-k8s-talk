@@ -16,6 +16,14 @@ spec:
         image: aleksys/gateway
         ports:
         - containerPort: 8100
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8100
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8100
         env:
           - name: discovery.server-url
             value: http://discovery-server.default:8761/eureka

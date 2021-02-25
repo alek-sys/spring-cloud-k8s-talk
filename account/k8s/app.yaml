@@ -16,6 +16,14 @@ spec:
           image: aleksys/account
           ports:
             - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
           env:
             - name: discovery.server-url
               value: http://discovery-server.default:8761/eureka

@@ -15,7 +15,15 @@ spec:
       - name: orders
         image: aleksys/orders
         ports:
-        - containerPort: 8080
+        - containerPort: 8090
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8090
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8090
         env:
           - name: discovery.server-url
             value: http://discovery-server.default:8761/eureka
